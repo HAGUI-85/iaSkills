@@ -76,7 +76,7 @@ gemini --yolo -p "/code-review ."
 # Dans le chat Claude Code :
 /code-review .
 /code-review core/logger
-/code-review app/src/main/java/com/chronopost/hub/utils/TokenGenerator.kt
+/code-review app/src/main/java/com/chr/h/utils/TokenGenerator.kt
 ```
 
 ---
