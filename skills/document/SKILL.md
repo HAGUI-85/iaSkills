@@ -8,7 +8,7 @@ description: >
   TRIGGER when the user asks to: generate documentation, document a project, create technical
   docs, write project documentation, or describe a codebase for onboarding.
 user-invocable: true
-argument-hint: "[file | module | . (whole project) | (empty → interactive)]"
+argument-hint: "[file | module | . (whole project) | (empty = interactive)]"
 ---
 
 # Documentation Generation Skill
