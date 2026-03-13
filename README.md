@@ -6,27 +6,31 @@ Skills partagés pour Gemini CLI et Claude Code, utilisables sur tous les projet
 
 ### Gemini CLI — installation globale
 ```bash
-# Depuis GitHub
+# Installer un skill depuis GitHub
 gemini skills install https://github.com/HAGUI-85/iaSkills.git --path skills/code-review
+gemini skills install https://github.com/HAGUI-85/iaSkills.git --path skills/document
 
 # Ou depuis un chemin local (pendant le développement)
 gemini skills link /chemin/vers/iaSkills/skills/code-review
+gemini skills link /chemin/vers/iaSkills/skills/document
 ```
 
 ### Claude Code — installation globale
 ```bash
-# Cloner le repo puis copier le skill Claude
+# Cloner le repo puis copier les skills Claude
 git clone https://github.com/HAGUI-85/iaSkills.git
 cp -r iaSkills/skills/code-review/claude ~/.claude/skills/code-review
+cp -r iaSkills/skills/document/claude ~/.claude/skills/document
 ```
 
 ### Vérifier l'installation
 ```bash
 # Gemini
-gemini skills list --all | grep code-review
+gemini skills list --all | grep -E "code-review|document"
 
 # Claude Code — taper dans le chat :
 /code-review .
+/document .
 ```
 
 ---
@@ -36,6 +40,7 @@ gemini skills list --all | grep code-review
 | Skill | Commande | Outils | Description |
 |-------|----------|--------|-------------|
 | Code Review | `/code-review [scope]` | Gemini CLI + Claude Code | Revue complète : archi, sécu, exceptions, patterns, perf, tests |
+| Document | `/document [scope]` | Gemini CLI + Claude Code | Génère une `documentation.md` complète : contexte, use cases, diagrammes de séquence, détails de code, guide de setup |
 
 ---
 
@@ -49,7 +54,10 @@ iaSkills/
     │   ├── SKILL.md          ← Gemini CLI version
     │   └── claude/
     │       └── SKILL.md      ← Claude Code version
-    └── (futurs skills ici)
+    └── document/
+        ├── SKILL.md          ← Gemini CLI version
+        └── claude/
+            └── SKILL.md      ← Claude Code version
 ```
 
 ---
@@ -58,17 +66,15 @@ iaSkills/
 
 ### Gemini CLI
 ```bash
-# Review du projet entier
+# Code Review
 gemini /code-review .
-
-# Review d'un module
 gemini /code-review core/logger
+gemini /code-review app/src/main/java/com/example/utils/TokenGenerator.kt
+gemini --yolo -p "/code-review ."   # mode headless (CI)
 
-# Review d'un fichier
-gemini /code-review app/src/main/java/com/chronopost/hub/utils/TokenGenerator.kt
-
-# Mode headless (CI / non-interactif)
-gemini --yolo -p "/code-review ."
+# Documentation
+gemini /document .
+gemini /document core/feature-login
 ```
 
 ### Claude Code
@@ -76,7 +82,8 @@ gemini --yolo -p "/code-review ."
 # Dans le chat Claude Code :
 /code-review .
 /code-review core/logger
-/code-review app/src/main/java/com/chr/h/utils/TokenGenerator.kt
+/document .
+/document core/feature-login
 ```
 
 ---
@@ -101,11 +108,11 @@ gemini --yolo -p "/code-review ."
 
 ```bash
 # Gemini CLI
-gemini skills uninstall code-review
-gemini skills install https://github.com/HAGUI-85/iaSkills.git --path skills/code-review
+gemini skills uninstall code-review && gemini skills install https://github.com/HAGUI-85/iaSkills.git --path skills/code-review
+gemini skills uninstall document    && gemini skills install https://github.com/HAGUI-85/iaSkills.git --path skills/document
 
 # Claude Code
-rm -rf ~/.claude/skills/code-review
 git clone https://github.com/HAGUI-85/iaSkills.git /tmp/iaSkills
 cp -r /tmp/iaSkills/skills/code-review/claude ~/.claude/skills/code-review
+cp -r /tmp/iaSkills/skills/document/claude    ~/.claude/skills/document
 ```
